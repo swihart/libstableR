@@ -1,0 +1,4 @@
+useDynLib("libstableR", .registration=TRUE)
+exportPattern("^[[:alpha:]]+")
+importFrom(Rcpp, evalCpp)
+importFrom(Rcpp, sourceCpp)
