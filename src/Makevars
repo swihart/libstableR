@@ -1,2 +1,1 @@
-PKG_LIBS= -lgsl -lgslcblas
 PKG_LIBS = `$(R_HOME)/bin/Rscript -e "RcppGSL:::LdFlags()"`
