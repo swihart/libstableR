@@ -8,7 +8,9 @@ Authors@R: c(person("Javier", "Royuela del Val", role = c("aut", "cre"), email =
   person("Carlos", "Alberola López", role = "aut"))
 Description: Tools for fast and accurate evaluation of skew stable distributions (CDF, PDF and quantile functions), random number generation and parameter estimation.
 License: GPL-3
-Imports: Rcpp (>= 0.12.9)
+Imports: 
+  Rcpp (>= 0.12.9),
+  RcppGSL
 LinkingTo: Rcpp
 Encoding: UTF-8
 NeedsCompilation: yes
