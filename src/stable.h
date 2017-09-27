@@ -1,20 +1,20 @@
 /* stable/stable.h
- * 
+ *
  * Main header file of Libstable. Contains all declarations of the
  * usable functions in the library.
  *
  * Copyright (C) 2013. Javier Royuela del Val
  *                     Federico Simmross Wattenberg
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 of the License.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; If not, see <http://www.gnu.org/licenses/>.
  *
@@ -23,9 +23,9 @@
  *  E.T.S.I. Telecomunicación
  *  Universidad de Valladolid
  *  Paseo de Belén 15, 47002 Valladolid, Spain.
- *  jroyval@lpi.tel.uva.es    
+ *  jroyval@lpi.tel.uva.es
  */
- 
+
 #ifndef _stable_H_
 #define _stable_H_
 
@@ -68,7 +68,7 @@ extern unsigned short INV_MAXITER; // Maximum # of iterations inversion method
 
 extern double relTOL;     // Relative error tolerance
 extern double absTOL;     // Absolut error tolerance
-//extern double FACTOR;   // 
+//extern double FACTOR;   //
 extern double ALPHA_TH;    // Alpha threshold
 extern double BETA_TH;    // Beta threshold
 extern double EXP_MAX;    // Exponent maximum value
@@ -142,15 +142,15 @@ struct StableDistStruct
     double alpha;
     double beta;
     double sigma;
-    double mu_0;   
+    double mu_0;
     double mu_1;
-    
+
 
     /* Particular cases indicator (Gauss, Cauchy, Levy distribution, alpha==1, etc.) */
     int ZONE;
 
     /* Pointers to pdf and cdf evaluation functions */
-    double(*stable_pdf_point)(struct StableDistStruct *, const double, double *);  
+    double(*stable_pdf_point)(struct StableDistStruct *, const double, double *);
     double(*stable_cdf_point)(struct StableDistStruct *, const double, double *);
 
     /* Precalculated values. */
@@ -290,7 +290,7 @@ double stable_cdf_point_ALPHA_1(StableDist *dist, const double x, double *err);
 
 double stable_cdf_point(StableDist *dist, const double x, double *err);
 
-void stable_cdf(StableDist *dist, const double* x, const unsigned int Nx,
+void int_stable_cdf(StableDist *dist, const double* x, const unsigned int Nx,
                 double *cdf, double *err);
 
 /******************************************************************************/
@@ -338,7 +338,7 @@ typedef struct
     double alpha;
     double beta;
     double sigma;
-    double mu_0;   
+    double mu_0;
     double mu_1;
 
     /* Particular cases indicator (Gauss, Cauchy, Levy distribution, alpha==1, etc.) */
@@ -428,7 +428,7 @@ gsl_complex stable_samplecharfunc_point(const double* x,
 
 void stable_samplecharfunc(const double* x, const unsigned int Nx,
              const double* t, const unsigned int Nt, gsl_complex * z);
-             
+
 void stable_fft(double *data, const unsigned int length, double * y);
 
 double stable_loglikelihood(StableDist *dist, double *data, const unsigned int length);
@@ -436,7 +436,7 @@ double stable_loglikelihood(StableDist *dist, double *data, const unsigned int l
 //stable_like_params
 
 int stable_fit_iter_whole(StableDist *dist, const double * data, const unsigned int length);
-         
+
 int stable_fit_iter(StableDist *dist, const double * data,
              const unsigned int length, const double nu_c, const double nu_z);
 

@@ -92,6 +92,7 @@ NumericVector getPars(StableDist *dist, int parametrization = 0)
   return pars;
 }
 
+//' @export
 // [[Rcpp::export]]
 NumericVector stable_pdf(NumericVector x, NumericVector pars, int parametrization=0, double tol=1e-12)
 {
@@ -111,6 +112,7 @@ NumericVector stable_pdf(NumericVector x, NumericVector pars, int parametrizatio
   return out;
 }
 
+//' @export
 // [[Rcpp::export]]
 NumericVector stable_cdf(NumericVector x, NumericVector pars, int parametrization=0, double tol=1e-12)
 {
@@ -124,12 +126,13 @@ NumericVector stable_cdf(NumericVector x, NumericVector pars, int parametrizatio
 
   StableDist * dist = stable_create(pars[0], pars[1], pars[2], pars[3], parametrization);
   stable_set_relTOL(tol);
-  stable_cdf(dist, &(x[0]), x.size(), &(out[0]), NULL);
+  int_stable_cdf(dist, &(x[0]), x.size(), &(out[0]), NULL);
   stable_free(dist);
 
   return out;
 }
 
+//' @export
 // [[Rcpp::export]]
 NumericVector stable_q(NumericVector p, NumericVector pars, int parametrization=0, double tol=1e-12)
 {
@@ -159,6 +162,7 @@ NumericVector stable_q(NumericVector p, NumericVector pars, int parametrization=
   return out;
 }
 
+//' @export
 // [[Rcpp::export]]
 NumericVector stable_rnd(int N, NumericVector pars, int parametrization=0, int seed=0)
 {
@@ -180,6 +184,7 @@ NumericVector stable_rnd(int N, NumericVector pars, int parametrization=0, int s
   return out;
 }
 
+//' @export
 // [[Rcpp::export]]
 NumericVector stable_fit_init(NumericVector rnd, int parametrization=0)
 {
@@ -193,12 +198,13 @@ NumericVector stable_fit_init(NumericVector rnd, int parametrization=0)
   return out;
 }
 
+//' @export
 // [[Rcpp::export]]
 NumericVector stable_fit_koutrouvelis(NumericVector rnd, NumericVector pars_init = NumericVector::create(), int parametrization=0)
 {
   if (pars_init.size() == 0)
     pars_init <- stable_fit_init(rnd, parametrization);
-    
+
   if(checkParams(pars_init, parametrization) != 0) {
     perror("No valid parameters provided");
     NumericVector out(4, NA_REAL);
@@ -207,7 +213,7 @@ NumericVector stable_fit_koutrouvelis(NumericVector rnd, NumericVector pars_init
 
   StableDist* dist = stable_create(pars_init[0], pars_init[1], pars_init[2], pars_init[3], parametrization);
 
-  
+
   if (stable_fit_koutrouvelis(dist, &(rnd[0]), rnd.size()) < 0) {
       Rprintf("Stable_fit_koutrouvelis error");
   }
@@ -218,10 +224,11 @@ NumericVector stable_fit_koutrouvelis(NumericVector rnd, NumericVector pars_init
   return out;
 }
 
+//' @export
 // [[Rcpp::export]]
 NumericVector stable_fit_mle(NumericVector rnd, NumericVector pars_init = NumericVector::create(), int parametrization = 0)
 {
-  
+
   if (pars_init.size() == 0) {
     pars_init <- stable_fit_init(rnd, parametrization);
     Rprintf("INIT MCCULLCOH\n");
@@ -229,7 +236,7 @@ NumericVector stable_fit_mle(NumericVector rnd, NumericVector pars_init = Numeri
   else {
     Rprintf("SKIP INIT\n");
   }
-    
+
   if(checkParams(pars_init, parametrization) != 0) {
     perror("No valid parameters provided");
     NumericVector out(4, NA_REAL);
@@ -237,7 +244,7 @@ NumericVector stable_fit_mle(NumericVector rnd, NumericVector pars_init = Numeri
   }
 
   StableDist* dist = stable_create(pars_init[0], pars_init[1], pars_init[2], pars_init[3], parametrization);
-  
+
   if (stable_fit_mle(dist, &(rnd[0]), rnd.size()) < 0) {
       Rprintf("Stable_fit_mle error");
   }
@@ -248,13 +255,14 @@ NumericVector stable_fit_mle(NumericVector rnd, NumericVector pars_init = Numeri
   return out;
 }
 
+//' @export
 // [[Rcpp::export]]
 NumericVector stable_fit_mle2d(NumericVector rnd, NumericVector pars_init = NumericVector::create(), int parametrization = 0)
 {
-  
+
   if (pars_init.size() == 0)
     pars_init <- stable_fit_init(rnd, parametrization);
-    
+
   if(checkParams(pars_init, parametrization) != 0) {
     perror("No valid parameters provided");
     NumericVector out(4, NA_REAL);
