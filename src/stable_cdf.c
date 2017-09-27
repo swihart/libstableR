@@ -1,5 +1,5 @@
 /* stable/stable_cdf.c
- * 
+ *
  * Code for computing the CDF of an alpha-estable distribution.
  * Expresions presented in [1] are employed.
  *
@@ -8,16 +8,16 @@
  *
  * Copyright (C) 2013. Javier Royuela del Val
  *                     Federico Simmross Wattenberg
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 3 of the License.
- * 
+ *
  * This program is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; If not, see <http://www.gnu.org/licenses/>.
  *
@@ -26,7 +26,7 @@
  *  E.T.S.I. Telecomunicación
  *  Universidad de Valladolid
  *  Paseo de Belén 15, 47002 Valladolid, Spain.
- *  jroyval@lpi.tel.uva.es    
+ *  jroyval@lpi.tel.uva.es
  */
 #include "stable.h"
 #include "stable_integration.h"
@@ -50,7 +50,7 @@ double stable_cdf_g1(double theta, void *args)
   #endif
 
   g = V + dist->xxipow;
-  // Taylor: exp(-x) ~ 1-x en x ~ 0 
+  // Taylor: exp(-x) ~ 1-x en x ~ 0
   // If g < 1.52e-8 -> exp(-g) = (1-g) with double precision.
   // This way, we avoid evaluating an extra exp(x).
   if((g=exp(g)) < 1.522e-8)
@@ -81,7 +81,7 @@ double stable_cdf_g2(double theta, void *args)
   #endif
 
   g = V + dist->xxipow;
-  // Taylor: exp(-x) ~ 1-x en x ~ 0 
+  // Taylor: exp(-x) ~ 1-x en x ~ 0
   // If g < 1.52e-8 -> exp(-g) = (1-g) with double precision.
   // This way, we avoid evaluating an extra exp(x).
   if((g=exp(g)) < 1.522e-8)
@@ -170,11 +170,11 @@ void * thread_init_cdf(void *ptr_args)
       counter_++;
     }
   pthread_exit(NULL);
-  
+
   return NULL;
 }
 
-void stable_cdf(StableDist *dist, const double* x, const unsigned int Nx, double *cdf, double *err)
+void int_stable_cdf(StableDist *dist, const double* x, const unsigned int Nx, double *cdf, double *err)
 {
   int Nx_thread[THREADS],
       initpoint[THREADS],
@@ -185,7 +185,7 @@ void stable_cdf(StableDist *dist, const double* x, const unsigned int Nx, double
 
 /* Si no se introduce el puntero para el error, se crea */
   if (err==NULL) {flag=1;err=(double*)malloc(Nx*sizeof(double));}
-  
+
 /* Reparto de los puntos de evaluacion entre los hilos disponibles */
 
   Nx_thread[0] = Nx/THREADS;
@@ -324,7 +324,7 @@ stable_cdf_point_CAUCHY(StableDist *dist, const double x, double *err)
   *err = 0.0;
 
   return 0.5+M_1_PI*atan(x_);
-}   
+}
 
 double
 stable_cdf_point_LEVY(StableDist *dist, const double x, double *err)
@@ -379,13 +379,13 @@ stable_cdf_point_STABLE(StableDist *dist, const double x, double *err)
 {
   double cdf=0;
   double x_, xxi;
-  
+
   double(*integrando)(double,void *) = &stable_cdf_g2;
   double(*auxiliar)(double,void *)= &stable_cdf_g_aux2;
   x_=(x-dist->mu_0)/dist->sigma;
   xxi=x_-dist->xi;
   *err=0.0;
-        
+
         //xxi_th = pow(10,XXI_TH/fabs(dist->alphainvalpha1));//REVISAR CON NOLAN...
         /*Si justo evaluo en o cerca de xi*/
     if (fabs(xxi) < XXI_TH)
@@ -408,10 +408,10 @@ stable_cdf_point_STABLE(StableDist *dist, const double x, double *err)
       }
     //dist->xxipow=pow(fabs(xxi),dist->alphainvalpha1);
     dist->xxipow=dist->alphainvalpha1*log(fabs(xxi));
-    
+
     //Solo si alpha1 o zona estable.
     cdf = stable_integration_cdf(dist,integrando,auxiliar,err);
- 
+
   if (xxi>0)
     cdf = dist->c1+dist->c3*cdf;
   else if (dist->alpha>1.0)
